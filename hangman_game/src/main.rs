@@ -7,7 +7,7 @@ fn main() {
     
     let guess_word: String = String::from("hangman");
     let letters_used: String = String::new();
-    let guess_word_vec = guess_word.chars();
+    // let guess_word_vec = guess_word.chars();
     let mut letter = String::new();
     let mut attempts: i8 = 5;
     
@@ -24,7 +24,7 @@ fn main() {
       letters_used_clone += &letter;
       println!("{}", letters_used_clone);
       // let win = print_guess_word(letters_used_clone, &guess_word_vec);
-      print_guess_word(letters_used_clone, &guess_word_vec);
+      print_guess_word(letters_used_clone, &guess_word);
       // if win {
       //   println!("You win!");
       //   break;
@@ -40,10 +40,10 @@ fn main() {
     }
 }
 // FUNCTION
-fn print_guess_word(letters_used: String, guess_word_vec: &Chars) {
+fn print_guess_word(letters_used: String, guess_word: &String) {
   let mut print_string: Vec<String> = Vec::new();
   // let guess_word: String = String::from("hangman");
-  // let guess_word_vec = guess_word.chars();
+  let guess_word_vec = guess_word.chars();
 
   guess_word_vec.for_each(|letter| {
     if letters_used.contains(letter) {     
