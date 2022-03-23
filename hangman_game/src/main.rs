@@ -1,51 +1,51 @@
 use std::io;
-use core::str::Chars;
-use std::borrow::Borrow;
-
+/**
+ * Summary: Hangman game.
+ * Description: Print screen status.
+ */
 fn main() {
-    println!("Guess the word!");
+    println!("Welcome to the hangman game");
+    println!("let's see if you can guess the word in less than 5 tries!");
     
     let guess_word: String = String::from("hangman");
     let letters_used: String = String::new();
-    // let guess_word_vec = guess_word.chars();
-    let mut letter = String::new();
+    let mut input_letter = String::new();
     let mut attempts: i8 = 5;
     
     loop {
       let mut letters_used_clone = letters_used.clone();
-      println!("Please input a letter to guess: ");
+      println!("Please enter a letter to guess: ");
       io::stdin()
-        .read_line(&mut letter)
+        .read_line(&mut input_letter)
         .expect("Failed to read letter");
   
-      // if guess_word.contains(&letter.to_string()) {
-      //   println!("attemps")
-      // }
-      letters_used_clone += &letter;
+      letters_used_clone += &input_letter;
       println!("{}", letters_used_clone);
-      // let win = print_guess_word(letters_used_clone, &guess_word_vec);
-      print_guess_word(letters_used_clone, &guess_word);
-      // if win {
-      //   println!("You win!");
-      //   break;
-      // } else {
-      //   // if !successful_attempt { attempts -= 1 };
-      //   if attempts == 0 {
-      //     println!("You loose!");
-      //     break;
-      //   }else{
-      //     println!("You have {} attempts left", attempts);
-      //   }
-      // }
+
+      print_guess_word(&letters_used_clone, &guess_word);
+      if check_win(&letters_used_clone, &guess_word){
+        println!("YOU WIN !!!!");
+        break;
+      }
+      attempts -= 1;
+      if attempts == 0{
+        println!("YOU LOOSE :( ");          
+        break;
+      }
+
     }
 }
-// FUNCTION
-fn print_guess_word(letters_used: String, guess_word: &String) {
+/**
+ * Summary: Print screen status..
+ * Description: Print screen status.
+ * * @param {letters_used: &String}
+ * * @param {guess_word: &String}
+ * * @return ()
+ */
+fn print_guess_word(letters_used: &String, guess_word: &String) {
   let mut print_string: Vec<String> = Vec::new();
-  // let guess_word: String = String::from("hangman");
-  let guess_word_vec = guess_word.chars();
 
-  guess_word_vec.for_each(|letter| {
+  guess_word.chars().for_each(|letter| {
     if letters_used.contains(letter) {     
       print_string.push(letter.to_string());
     }else {   
@@ -55,3 +55,20 @@ fn print_guess_word(letters_used: String, guess_word: &String) {
   let printable_word: String = print_string.join("  ");
   println!("{}", printable_word);
 }
+/**
+ * Summary: Check if user wins the game.
+ * Description: Check if user wins the game.
+ * * @param {letters_used: &String}
+ * * @param {guess_word: &String}
+ * * @return {bool}
+ */
+fn check_win(letters_used: &String, guess_word: &String) -> bool {
+  
+  let mut win = true;
+  guess_word.chars().for_each(|letter| {
+    if !letters_used.contains(letter) {
+      win = false;
+    }
+  });
+  return win;
+}  
